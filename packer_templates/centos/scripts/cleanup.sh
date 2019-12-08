@@ -36,15 +36,9 @@ else
   package-cleanup --oldkernels --count=1 -y
 fi
 
-# Avoid ~200 meg firmware package we don't need
-# this cannot be done in the KS file so we do it here
-echo "Removing extra firmware packages"
-$pkg_cmd -y remove linux-firmware
-
-if [ "$distro" != 'redhat' ]; then
-  echo "clean all package cache information"
-  $pkg_cmd -y clean all  --enablerepo=\*;
-fi
+# Remove development and kernel source packages
+# tbr: Do not remove packages for later rebuild of VirualBox Addions
+# $pkg_cmd -y remove gcc cpp kernel-devel kernel-headers;
 
 # Clean up network interface persistence
 rm -f /etc/udev/rules.d/70-persistent-net.rules;
